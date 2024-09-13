@@ -7,7 +7,7 @@ car = path('car.gif')
 tiles = list(range(32)) * 2
 state = {'mark': None}
 hide = [True] * 64
-
+taps = 0 
 
 def square(x, y):
     up()
@@ -30,6 +30,8 @@ def xy(count):
 
 
 def tap(x, y):
+    global taps
+    taps += 1 
     spot = index(x, y)
     mark = state['mark']
 
@@ -46,6 +48,9 @@ def draw():
     goto(0, 0)
     shape(car)
     stamp()
+
+    goto(-200, 200)
+    write(f'Taps: {taps}', font=('Arial', 16, 'normal'))
 
     for count in range(64):
         if hide[count]:
