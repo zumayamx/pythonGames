@@ -40,7 +40,7 @@ def draw_circle(start, end):
 
     # Calcular el radio como la distancia entre start y end
     radius = sqrt((end.x - start.x) ** 2 + (end.y - start.y) ** 2)
-    
+
     # Validar que el radio sea positivo
     if radius <= 0:
         print("El radio es demasiado pequeño para dibujar un círculo.")
@@ -55,8 +55,23 @@ def draw_circle(start, end):
 
 
 def rectangle(start, end):
-    """Draw rectangle from start to end."""
-    pass  # TODO
+    """Dibuja un rectángulo desde start hasta end."""
+    up()
+    goto(start.x, start.y)
+    down()
+    begin_fill()
+
+    # Calcular las dimensiones del rectángulo
+    width = end.x - start.x
+    height = end.y - start.y
+
+    for count in range(2):
+        forward(width)
+        left(90)
+        forward(height)
+        left(90)
+
+    end_fill()
 
 
 def triangle(start, end):
