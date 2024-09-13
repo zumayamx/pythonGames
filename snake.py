@@ -1,17 +1,13 @@
-"""
-José Manuel García Zumaya - A01784238
-Snake - Freegames
-"""
-
-
-from random import randrange
+from random import randrange, choice
 from turtle import *
-
 from freegames import square, vector
 
 food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
+
+# Posibles movimientos de la comida: arriba, abajo, izquierda, derecha
+food_moves = [vector(10, 0), vector(-10, 0), vector(0, 10), vector(0, -10)]
 
 
 def change(x, y):
@@ -20,13 +16,23 @@ def change(x, y):
     aim.y = y
 
 
-def inside(head):
-    """Return True if head inside boundaries."""
-    return -200 < head.x < 190 and -200 < head.y < 190
+def inside(position):
+    """Return True if position inside boundaries."""
+    return -200 < position.x < 190 and -200 < position.y < 190
+
+
+def move_food():
+    """Move food randomly one step inside boundaries."""
+    global food
+    move_direction = choice(food_moves)
+    new_position = food + move_direction
+
+    if inside(new_position):
+        food.move(move_direction)
 
 
 def move():
-    """Move snake forward one segment."""
+    """Move snake forward one segment and food randomly."""
     head = snake[-1].copy()
     head.move(aim)
 
@@ -46,10 +52,16 @@ def move():
 
     clear()
 
+    # Dibujar la serpiente
     for body in snake:
         square(body.x, body.y, 9, 'black')
 
+    # Mover la comida antes de dibujarla
+    move_food()
+
+    # Dibujar la comida
     square(food.x, food.y, 9, 'green')
+
     update()
     ontimer(move, 100)
 
