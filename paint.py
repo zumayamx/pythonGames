@@ -1,6 +1,6 @@
 """
 José Manuel García Zumaya - A01784238
-Pacman Game - Freegames
+Paint Game - Freegames
 """
 
 from turtle import *
