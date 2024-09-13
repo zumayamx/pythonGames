@@ -4,14 +4,19 @@ from turtle import *
 from freegames import path
 
 car = path('car.gif')
-letters = [chr(i) for i in range(ord('A'), ord('Z') + 1)] * 2
-letters = letters[:64]
-shuffle(letters)
+letters = [chr(i) for i in range(ord('A'), ord('Z') + 1)]
+colors = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'cyan']
+
+elements = [(letter, color) for letter in letters for color in colors[:8]]
+elements = elements * 2
+elements = elements[:64]
+shuffle(elements)
 state = {'mark': None}
 hide = [True] * 64
 taps = 0
 
 def square(x, y):
+    """Dibuja un cuadrado en la posición (x, y)."""
     up()
     goto(x, y)
     down()
@@ -23,18 +28,21 @@ def square(x, y):
     end_fill()
 
 def index(x, y):
+    """Convierte las coordenadas (x, y) en un índice de casilla."""
     return int((x + 200) // 50 + ((y + 200) // 50) * 8)
 
 def xy(count):
+    """Convierte un índice de casilla en coordenadas (x, y)."""
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
 def tap(x, y):
+    """Maneja el evento de clic en la posición (x, y)."""
     global taps
     taps += 1
     spot = index(x, y)
     mark = state['mark']
 
-    if mark is None or mark == spot or letters[mark] != letters[spot]:
+    if mark is None or mark == spot or elements[mark] != elements[spot]:
         state['mark'] = spot
     else:
         hide[spot] = False
@@ -42,9 +50,11 @@ def tap(x, y):
         state['mark'] = None
 
 def all_uncovered():
+    """Verifica si todos los cuadros han sido destapados."""
     return all(not hidden for hidden in hide)
 
 def draw():
+    """Dibuja el estado actual del juego y actualiza la pantalla."""
     clear()
     goto(0, 0)
     shape(car)
@@ -69,9 +79,10 @@ def draw():
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
+        color_value = elements[mark][1]
+        color(color_value)
         goto(x + 17, y + 5)
-        color('black')
-        write(letters[mark], font=('Arial', 30, 'normal'))
+        write(elements[mark][0], font=('Arial', 30, 'normal'))
 
     update()
     ontimer(draw, 100)
