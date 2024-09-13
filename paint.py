@@ -5,6 +5,8 @@ Pacman Game - Freegames
 
 from turtle import *
 
+from math import sqrt
+
 from freegames import vector
 
 
@@ -29,10 +31,27 @@ def square(start, end):
 
     end_fill()
 
+def draw_circle(start, end):
+    """Dibuja un círculo desde start hasta end."""
+    up()
+    # Mover al punto de inicio (centro del círculo)
+    goto(start.x, start.y)
+    down()
 
-def circle(start, end):
-    """Draw circle from start to end."""
-    pass  # TODO
+    # Calcular el radio como la distancia entre start y end
+    radius = sqrt((end.x - start.x) ** 2 + (end.y - start.y) ** 2)
+    
+    # Validar que el radio sea positivo
+    if radius <= 0:
+        print("El radio es demasiado pequeño para dibujar un círculo.")
+        return
+    
+    print(f"Radio calculado: {radius}")
+
+    begin_fill()
+    # Dibujar el círculo usando el radio calculado
+    circle(radius)
+    end_fill()
 
 
 def rectangle(start, end):
@@ -76,7 +95,7 @@ onkey(lambda: color('red'), 'R')
 onkey(lambda: color('yellow'), 'Y')  # Nuevo color amarillo
 onkey(lambda: store('shape', line), 'l')
 onkey(lambda: store('shape', square), 's')
-onkey(lambda: store('shape', circle), 'c')
+onkey(lambda: store('shape', draw_circle), 'c')
 onkey(lambda: store('shape', rectangle), 'r')
 onkey(lambda: store('shape', triangle), 't')
 done()
