@@ -1,13 +1,12 @@
-Aquí tienes el código sin comentarios:
-
-```python
-from random import *
+from random import shuffle
 from turtle import *
 
 from freegames import path
 
 car = path('car.gif')
-tiles = list(range(32)) * 2
+letters = [chr(i) for i in range(ord('A'), ord('Z') + 1)] * 2
+letters = letters[:64]
+shuffle(letters)
 state = {'mark': None}
 hide = [True] * 64
 taps = 0
@@ -35,7 +34,7 @@ def tap(x, y):
     spot = index(x, y)
     mark = state['mark']
 
-    if mark is None or mark == spot or tiles[mark] != tiles[spot]:
+    if mark is None or mark == spot or letters[mark] != letters[spot]:
         state['mark'] = spot
     else:
         hide[spot] = False
@@ -70,18 +69,13 @@ def draw():
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
-        if tiles[mark] >= 10:
-            goto(x + 7, y + 5)
-        else:
-            goto(x + 17, y + 5)
-
+        goto(x + 17, y + 5)
         color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        write(letters[mark], font=('Arial', 30, 'normal'))
 
     update()
     ontimer(draw, 100)
 
-shuffle(tiles)
 setup(420, 420, 370, 0)
 addshape(car)
 hideturtle()
@@ -89,4 +83,3 @@ tracer(False)
 onscreenclick(tap)
 draw()
 done()
-```
