@@ -9,6 +9,7 @@ state = {'mark': None}
 hide = [True] * 64
 taps = 0 
 
+
 def square(x, y):
     up()
     goto(x, y)
@@ -31,7 +32,7 @@ def xy(count):
 
 def tap(x, y):
     global taps
-    taps += 1 
+    taps += 1  
     spot = index(x, y)
     mark = state['mark']
 
@@ -43,6 +44,10 @@ def tap(x, y):
         state['mark'] = None
 
 
+def all_uncovered():
+    return all(not hidden for hidden in hide)
+
+
 def draw():
     clear()
     goto(0, 0)
@@ -51,6 +56,12 @@ def draw():
 
     goto(-200, 200)
     write(f'Taps: {taps}', font=('Arial', 16, 'normal'))
+
+    if all_uncovered():
+        goto(0, 0)
+        write('¡Juego completado!', align='center', font=('Arial', 30, 'bold'))
+        update()
+        return 
 
     for count in range(64):
         if hide[count]:
