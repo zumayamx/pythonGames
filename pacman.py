@@ -1,12 +1,6 @@
-"""Pacman, classic arcade game.
-
-Exercises
-
-1. Change the board.
-2. Change the number of ghosts.
-3. Change where pacman starts.
-4. Make the ghosts faster/slower.
-5. Make the ghosts smarter.
+"""
+José Manuel García Zumaya - A01784238
+Pacman Game - Freegames
 """
 
 from random import choice
@@ -134,15 +128,17 @@ def move():
         if valid(point + course):
             point.move(course)
         else:
+            # Hacer que los fantasmas se acerquen a Pacman
             options = [
                 vector(5, 0),
                 vector(-5, 0),
                 vector(0, 5),
                 vector(0, -5),
             ]
-            plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
+            # Elegir la dirección que más se acerque a Pacman
+            best_direction = min(options, key=lambda option: abs((point + option) - pacman))
+            course.x = best_direction.x
+            course.y = best_direction.y
 
         up()
         goto(point.x + 10, point.y + 10)
